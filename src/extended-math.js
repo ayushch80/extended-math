@@ -262,4 +262,181 @@ extendedMath.normalize = function normalize(value, min, max) {
 	return isInvalidNumber(value) || isInvalidNumber(min) || isInvalidNumber(max) ? NaN : (value - min) / (max - min);
 };
 
+/**
+ * Converts a number from degrees to radians.
+ * @function degreesToRadians
+ * @param {number} degrees - The number to convert from degrees to radians.
+ * @returns {number} A number converted from degrees to radians, or NaN if the argument is not a valid number.
+ * @since 1.0.9
+ * @memberOf module:extendedMath
+ * @example
+ * console.log(extendedMath.degreesToRadians(0)); // 0
+ * console.log(extendedMath.degreesToRadians(180)); // Math.PI
+ * console.log(extendedMath.degreesToRadians(360)); // Math.PI * 2
+ * console.log(extendedMath.degreesToRadians(NaN)); // NaN
+ * console.log(extendedMath.degreesToRadians(Infinity)); // Infinity
+ * console.log(extendedMath.degreesToRadians(-Infinity)); // -Infinity
+ * console.log(extendedMath.degreesToRadians('foo')); // NaN
+ * 
+ */
+extendedMath.deg2rad = function normalize(degrees) {
+	return degrees * Math.PI / 180;
+};
+
+/**
+ * Converts a number from radians to degrees.
+ * @function radiansToDegrees
+ * @param {number} radians - The number to convert from radians to degrees.
+ * @returns {number} A number converted from radians to degrees, or NaN if the argument is not a valid number.
+ * @since 1.0.9
+ * @memberOf module:extendedMath
+ * @example
+ * console.log(extendedMath.radiansToDegrees(0)); // 0
+ * console.log(extendedMath.radiansToDegrees(Math.PI)); // 180
+ * console.log(extendedMath.radiansToDegrees(Math.PI * 2)); // 360
+ * console.log(extendedMath.radiansToDegrees(NaN)); // NaN
+ * console.log(extendedMath.radiansToDegrees(Infinity)); // Infinity
+ * console.log(extendedMath.radiansToDegrees(-Infinity)); // -Infinity
+ * console.log(extendedMath.radiansToDegrees('foo')); // NaN
+ * 
+ */
+extendedMath.rad2deg = function normalize(radians) {
+	return radians * 180 / Math.PI;
+};
+
+/**
+ * Rounds a number to a specified precision.
+ * @function around
+ * @param {number} value - The number to round.
+ * @param {number} [precision=0] - The number of decimal places to round to.
+ * @returns {number} A number rounded to the specified precision, or NaN if the argument is not a valid number.
+ * @since 1.0.9
+ * @memberOf module:extendedMath
+ * @example
+ * console.log(extendedMath.around(1.2345)); // 1
+ * console.log(extendedMath.around(1.2345, 1)); // 1.2
+ * console.log(extendedMath.around(1.2345, 2)); // 1.23
+ * console.log(extendedMath.around(1.2345, 3)); // 1.235
+ * console.log(extendedMath.around(1.2345, 4)); // 1.2345
+ * console.log(extendedMath.around(NaN)); // NaN
+ * console.log(extendedMath.around(Infinity)); // Infinity
+ * console.log(extendedMath.around(-Infinity)); // -Infinity
+ * console.log(extendedMath.around('foo')); // NaN
+ * 
+ */
+extendedMath.around = function around(value, precision = 0) {
+	return Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision);
+};
+
+/**
+ * Rounds a number up to a integer.
+ * @function rint
+ * @param {number} value - The number to round.
+ * @returns {number} A number rounded up to an integer, or NaN if the argument is not a valid number.
+ * @since 1.0.9
+ * @memberOf module:extendedMath
+ * @example
+ * console.log(extendedMath.rint(1.2345)); // 1
+ * console.log(extendedMath.rint(1)); // 1
+ * console.log(extendedMath.rint(0)); // 0
+ * console.log(extendedMath.rint(NaN)); // NaN
+ * console.log(extendedMath.rint(Infinity)); // Infinity
+ * console.log(extendedMath.rint(-Infinity)); // -Infinity
+ * console.log(extendedMath.rint('foo')); // NaN
+ * 
+ */
+extendedMath.rint = function rint(value) {
+	return Math.round(value);
+}
+
+/**
+ * Calculates the Modified Bessel Function of the first kind of order 0.
+ * @function i0
+ * @param {number} x - The number to calculate the Modified Bessel Function of the first kind of order 0.
+ * @returns {number} The Modified Bessel Function of the first kind of order 0, or NaN if the argument is not a valid number.
+ * @since 1.0.9
+ * @memberOf module:extendedMath
+ * @example
+ * console.log(extendedMath.i0(0)); // 1
+ * console.log(extendedMath.i0(1)); // 1.2660658480342601
+ * console.log(extendedMath.i0(2)); // 2.279585307296026
+ * console.log(extendedMath.i0(3)); // 4.880792565033293
+ * console.log(extendedMath.i0(NaN)); // NaN
+ * console.log(extendedMath.i0(Infinity)); // Infinity
+ * console.log(extendedMath.i0(-Infinity)); // Infinity
+ * console.log(extendedMath.i0('foo')); // NaN
+ * 
+ */
+extendedMath.i0 = function i0(x) {
+	var y = Math.abs(x);
+	var ans;
+	if (y <= 3.75) {
+		y = x / 3.75;
+		y *= y;
+		ans = 1.0 + y * (3.5156229 + y * (3.0899424 + y * (1.2067492 + y * (0.2659732 + y * (0.360768e-1 + y * 0.45813e-2)))));
+	} else {
+		y = 3.75 / y;
+		ans = (Math.exp(y) / Math.sqrt(y)) * (0.39894228 + y * (0.1328592e-1 + y * (0.225319e-2 + y * (-0.157565e-2 + y * (0.916281e-2 + y * (-0.2057706e-1 + y * (0.2635537e-1 + y * (-0.1647633e-1 + y * 0.392377e-2))))))));
+	}
+	return ans;
+};
+
+/**
+ * 	
+ * @function sinc
+ * @param {number} x - The number to calculate the sinc of.
+ * @returns {number} The sinc of the number, or NaN if the argument is not a valid number.
+ * @since 1.0.9
+ * @memberOf module:extendedMath
+ * @example
+ * console.log(extendedMath.sinc(0)); // 1
+ * console.log(extendedMath.sinc(1)); // 0.8414709848078965
+ * console.log(extendedMath.sinc(2)); // 0.45464871341284085
+ * console.log(extendedMath.sinc(3)); // 0.0470400026866224
+ * console.log(extendedMath.sinc(NaN)); // NaN
+ * console.log(extendedMath.sinc(Infinity)); // NaN
+ * console.log(extendedMath.sinc(-Infinity)); // NaN
+ * console.log(extendedMath.sinc('foo')); // NaN
+ */
+extendedMath.sinc = function sinc(x) {
+	return x === 0 ? 1 : Math.sin(x) / x;
+};
+
+/**
+ * Calculates the least common multiple of two numbers.
+ * @function lcm
+ * @param {number} x - The first number.
+ * @param {number} y - The second number.
+ * @returns {number} The least common multiple of the two numbers, or NaN if either argument is not a valid number.
+ * @since 1.0.9
+ * @memberOf module:extendedMath
+ * 
+ */
+extendedMath.lcm = function lcm(x, y) {
+	return (!x || !y) ? 0 : Math.abs((x * y) / extendedMath.gcd(x, y));
+};
+
+/**
+ * Calculates the greatest common divisor of two numbers.
+ * @function gcd
+ * @param {number} x - The first number.
+ * @param {number} y - The second number.
+ * @returns {number} The greatest common divisor of the two numbers, or NaN if either argument is not a valid number.
+ * @since 1.0.9
+ * @memberOf module:extendedMath
+ * 
+ */
+extendedMath.gcd = function gcd(x, y) {
+	x = Math.abs(x);
+	y = Math.abs(y);
+	while (y) {
+		var t = y;
+		y = x % y;
+		x = t;
+	}
+	return x;
+};
+
+console.log(extendedMath.gcd(2324,3234342));
+
 module.exports = extendedMath;
